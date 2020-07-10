@@ -57,10 +57,12 @@ public class URIStorageImpl implements URIStorage {
     }
 
     @Override
-    public void registerUri(URI uri) {
+    public String registerUri(URI uri) {
         try {
+            String uriCode = getUriCode(uri);
             Path uriPath = path.resolve(getUriCode(uri) + ".uri");
             Files.write(uriPath, uri.toString().getBytes());
+            return uriCode;
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }

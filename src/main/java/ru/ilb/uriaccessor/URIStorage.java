@@ -41,8 +41,9 @@ public interface URIStorage {
     /**
      * register uri in storage for back-resolving (uriCode to uri)
      * @param uri
+     * @return registered uriCode of uri
      */
-    public void registerUri(URI uri);
+    public String registerUri(URI uri);
 
     /**
      * get uri storage path
