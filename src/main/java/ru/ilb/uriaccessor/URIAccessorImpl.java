@@ -31,6 +31,12 @@ public abstract class URIAccessorImpl implements URIAccessor {
 
     protected final URI uri;
 
+    protected final String uriCode;
+
+    protected final URIStorage uriStorage;
+
+    protected final URIStorageFactory uriStorageFactory = new URIStorageFactory();
+
     protected URI localUri;
 
     protected Instant lastModified;
@@ -41,6 +47,8 @@ public abstract class URIAccessorImpl implements URIAccessor {
 
     public URIAccessorImpl(URI uri) {
         this.uri = uri;
+        this.uriStorage = uriStorageFactory.getURIStorage();
+        this.uriCode = this.uriStorage.getUriCode(uri);
     }
 
     @Override
@@ -95,14 +103,12 @@ public abstract class URIAccessorImpl implements URIAccessor {
 
     @Override
     public String getUriCode() {
-        return uri.toString().replaceAll("\\W+", "") + uri.hashCode();
+        return uriCode;
     }
 
     @Override
     public Path getStorage() {
-        String tempDir = System.getProperty("java.io.tmpdir");
-        String userName = System.getProperty("user.name");
-        return Paths.get(tempDir, "URIAccessorStorage-" + userName, getUriCode());
+        return uriStorage.getStorage(uri);
     }
 
     protected Path getStorageContent() {
