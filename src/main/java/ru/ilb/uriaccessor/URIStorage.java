@@ -38,6 +38,11 @@ public interface URIStorage {
      */
     public URI getUri(String uriCode);
 
+    /**
+     * register uri in storage for back-resolving (uriCode to uri)
+     * @param uri
+     */
+    public void registerUri(URI uri);
 
     /**
      * get uri storage path

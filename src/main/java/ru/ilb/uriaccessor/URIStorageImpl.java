@@ -48,8 +48,19 @@ public class URIStorageImpl implements URIStorage {
     public URI getUri(String uriCode) {
         try {
             // read original uri from storage
-            byte[] readAllBytes = Files.readAllBytes(path.resolve(uriCode).resolve("uri"));
+            // possible use another storage
+            byte[] readAllBytes = Files.readAllBytes(path.resolve(uriCode + ".uri"));
             return URI.create(new String(readAllBytes));
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    @Override
+    public void registerUri(URI uri) {
+        try {
+            Path uriPath = path.resolve(getUriCode(uri) + ".uri");
+            Files.write(uriPath, uri.toString().getBytes());
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
