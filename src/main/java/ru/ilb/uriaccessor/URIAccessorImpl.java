@@ -76,6 +76,12 @@ public abstract class URIAccessorImpl implements URIAccessor {
     }
 
     @Override
+    public byte[] getContent() throws IOException {
+        checkBuild();
+        return Files.readAllBytes(Paths.get(localUri));
+    }
+
+    @Override
     public String getContentType() {
         checkBuild();
         return contentType;

@@ -5,6 +5,7 @@
  */
 package ru.ilb.uriaccessor;
 
+import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Path;
 import java.time.Instant;
@@ -32,6 +33,13 @@ public interface URIAccessor {
 
     public Instant getLastModified();
 
+    /**
+     * reads uri contents
+     * @return
+     * @throws java.io.IOException
+     */
+
+    public byte[] getContent() throws IOException;
     /**
      * content type of uri
      *
