@@ -69,7 +69,7 @@
         <dependency>
             <groupId>ru.ilb.testhttpserver</groupId>
             <artifactId>testhttpserver</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>

@@ -13,7 +13,9 @@ pipeline {
         stage ('Build') {
             when {
                 not {
-                    expression { params.RELEASE }
+                    expression {
+                        expression { params.RELEASE }
+                    }
                 }
             }
             steps {
@@ -27,6 +29,9 @@ pipeline {
             steps {
                 sh "mvn -B release:prepare"
                 sh "mvn -B release:perform"
+                dir ("target/checkout") {
+                    sh "mvn -P'!local-repository,sonatype-repository,release-profile' deploy"
+                }
             }
         }
     }
