@@ -40,7 +40,7 @@ public class URIStorageFactory {
         String userName = System.getProperty("user.name");
         this.path = Paths.get(tempDir, "URStorage-" + userName);
         try{
-            Files.createDirectory(path);
+            Files.createDirectories(path);
         }catch(IOException ex){
             throw new RuntimeException(ex);
         }
