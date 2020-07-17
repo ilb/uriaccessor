@@ -15,6 +15,8 @@
  */
 package ru.ilb.uriaccessor;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -37,6 +39,11 @@ public class URIStorageFactory {
         String tempDir = System.getProperty("java.io.tmpdir");
         String userName = System.getProperty("user.name");
         this.path = Paths.get(tempDir, "URStorage-" + userName);
+        try{
+            Files.createDirectory(path);
+        }catch(IOException ex){
+            throw new RuntimeException(ex);
+        }
 
     }
 
