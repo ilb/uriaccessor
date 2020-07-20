@@ -52,6 +52,9 @@ public class URIAccessorHttp extends URIAccessorImpl {
             FileTime lastModifiedTime = Files.getLastModifiedTime(contentPath);
             conn.setIfModifiedSince(lastModifiedTime.toMillis());
         }
+        // override default Accept [text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2]
+        // to request raw xml responses
+        conn.setRequestProperty("Accept", "*/*");
 
         conn.connect();
 
@@ -79,7 +82,7 @@ public class URIAccessorHttp extends URIAccessorImpl {
                 contentType = headers.get(CONTENT_TYPE);
                 break;
             default:
-                break;
+                throw new RuntimeException("HTTP response code " + conn.getResponseCode() + " not implemented");
         }
     }
 }
