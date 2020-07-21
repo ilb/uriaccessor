@@ -82,7 +82,7 @@ public class URIAccessorHttp extends URIAccessorImpl {
                 contentType = headers.get(CONTENT_TYPE);
                 break;
             default:
-                throw new RuntimeException("HTTP response code " + conn.getResponseCode() + " not implemented");
+                throw new URIAccessorException("HTTP response code " + conn.getResponseCode() + " not implemented");
         }
     }
 }

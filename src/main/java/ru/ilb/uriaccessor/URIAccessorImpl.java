@@ -25,6 +25,8 @@ import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.FileTime;
 import java.time.Instant;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.JSONObject;
 
 public abstract class URIAccessorImpl implements URIAccessor {
@@ -67,7 +69,7 @@ public abstract class URIAccessorImpl implements URIAccessor {
             }
             builded = true;
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            throw new URIAccessorException(ex);
         }
     }
 
@@ -85,9 +87,13 @@ public abstract class URIAccessorImpl implements URIAccessor {
     }
 
     @Override
-    public byte[] getContent() throws IOException {
+    public byte[] getContent() {
         checkBuild();
-        return Files.readAllBytes(Paths.get(localUri));
+        try {
+            return Files.readAllBytes(Paths.get(localUri));
+        } catch (IOException ex) {
+            throw new URIAccessorException(ex);
+        }
     }
 
     @Override

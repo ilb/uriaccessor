@@ -36,10 +36,9 @@ public interface URIAccessor {
     /**
      * reads uri contents
      * @return
-     * @throws java.io.IOException
      */
 
-    public byte[] getContent() throws IOException;
+    public byte[] getContent();
     /**
      * content type of uri
      *

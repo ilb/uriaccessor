@@ -42,7 +42,7 @@ public class URIStorageFactory {
         try{
             Files.createDirectories(path);
         }catch(IOException ex){
-            throw new RuntimeException(ex);
+            throw new URIAccessorException(ex);
         }
 
     }

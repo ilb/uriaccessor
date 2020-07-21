@@ -52,7 +52,7 @@ public class URIStorageImpl implements URIStorage {
             byte[] readAllBytes = Files.readAllBytes(path.resolve(uriCode + ".uri"));
             return URI.create(new String(readAllBytes));
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            throw new URIAccessorException(ex);
         }
     }
 
@@ -64,7 +64,7 @@ public class URIStorageImpl implements URIStorage {
             Files.write(uriPath, uri.toString().getBytes());
             return uriCode;
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            throw new URIAccessorException(ex);
         }
     }
 
