@@ -13,9 +13,7 @@ pipeline {
         stage ('Build') {
             when {
                 not {
-                    expression {
-                        expression { params.RELEASE }
-                    }
+                    expression { params.RELEASE }
                 }
             }
             steps {
