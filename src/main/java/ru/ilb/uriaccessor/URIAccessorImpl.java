@@ -25,13 +25,13 @@ import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.FileTime;
 import java.time.Instant;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.json.JSONObject;
 
 public abstract class URIAccessorImpl implements URIAccessor {
 
     protected final URI uri;
+
+    protected String contentType;
 
     protected final String uriCode;
 
@@ -42,8 +42,6 @@ public abstract class URIAccessorImpl implements URIAccessor {
     protected URI localUri;
 
     protected Instant lastModified;
-
-    protected String contentType;
 
     protected boolean builded;
 
