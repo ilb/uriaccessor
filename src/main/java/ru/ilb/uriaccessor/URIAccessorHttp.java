@@ -69,7 +69,7 @@ public class URIAccessorHttp extends URIAccessorImpl {
                 lastModified = Instant.ofEpochMilli(conn.getLastModified());
                 contentType = conn.getContentType();
                 //FIXME remove charset
-                if (contentType.contains(";")) {
+                if (contentType != null && contentType.contains(";")) {
                     contentType = contentType.split(";")[0];
                 }
                 writeMeta(headers);
