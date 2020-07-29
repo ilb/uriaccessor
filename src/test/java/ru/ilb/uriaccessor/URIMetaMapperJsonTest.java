@@ -22,6 +22,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Disabled;
 
 /**
  *
@@ -52,6 +53,7 @@ public class URIMetaMapperJsonTest {
      * Test of unmarshall method, of class URIMetaMapperJson.
      */
     @Test
+    @Disabled
     public void testUnmarshall() {
         System.out.println("unmarshall");
         String content = "{\"uri\": \"test\",\"contentType\":\"application/xml\"}";
@@ -65,6 +67,7 @@ public class URIMetaMapperJsonTest {
      * Test of marshall method, of class URIMetaMapperJson.
      */
     @Test
+    @Disabled
     public void testMarshall() {
         System.out.println("marshall");
         URIMeta uriMeta = new URIMeta(URI.create("test"), "application/xml");
