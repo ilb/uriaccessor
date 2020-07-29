@@ -37,6 +37,9 @@ public class URIAccessorFile extends URIAccessorImpl {
         Path path = Paths.get(uri);
         if (contentType == null) {
             contentType = Files.probeContentType(path);
+            if (contentType == null) {
+                contentType = "application/pdf"; //FIXME
+            }
         }
         lastModified = Files.getLastModifiedTime(path).toInstant();
     }
