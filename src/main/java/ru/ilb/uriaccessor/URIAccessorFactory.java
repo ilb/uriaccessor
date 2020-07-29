@@ -20,6 +20,9 @@ import java.net.URI;
 public class URIAccessorFactory {
 
     public URIAccessor getURIAccessor(URI uri) {
+        return getURIAccessor(uri, null);
+    }
+    public URIAccessor getURIAccessor(URI uri, String contentType) {
         switch (uri.getScheme()) {
             case "file":
                 return new URIAccessorFile(uri);

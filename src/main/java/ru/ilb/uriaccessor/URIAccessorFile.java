@@ -27,11 +27,17 @@ public class URIAccessorFile extends URIAccessorImpl {
         super(uri);
     }
 
+    public URIAccessorFile(URI uri, String contentType) {
+        super(uri, contentType);
+    }
+
     @Override
     protected void build() throws IOException {
         localUri = uri;
         Path path = Paths.get(uri);
-        contentType = Files.probeContentType(path);
+        if (contentType == null) {
+            contentType = Files.probeContentType(path);
+        }
         lastModified = Files.getLastModifiedTime(path).toInstant();
     }
 
