@@ -21,6 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.codec.digest.DigestUtils;
 
 public class URIStorageImpl implements URIStorage {
 
@@ -32,7 +33,8 @@ public class URIStorageImpl implements URIStorage {
 
     @Override
     public String getUriCode(URI uri) {
-        return uri.toString().replaceAll("\\W+", "") + uri.hashCode();
+        return DigestUtils.sha1Hex(uri.toString());
+//        return uri.toString().replaceAll("\\W+", "") + uri.hashCode();
     }
 
 //    @Override
