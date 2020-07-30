@@ -15,17 +15,30 @@
  */
 package ru.ilb.uriaccessor;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import ru.ilb.common.jaxb.util.JaxbUtil;
+import javax.ws.rs.core.MediaType;
 
 public class URIMetaMapperJson implements URIMetaMapper {
 
+    private final JAXBContext jaxbContext;
+
+    public URIMetaMapperJson() {
+        try {
+            this.jaxbContext = JAXBContext.newInstance(ru.ilb.uriaccessor.URIMeta.class);
+        } catch (JAXBException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
     @Override
     public URIMeta unmarshall(String content) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return (URIMeta) JaxbUtil.unmarshal(jaxbContext, content, ru.ilb.uriaccessor.URIMeta.class, MediaType.APPLICATION_JSON);
     }
 
     @Override
     public String marshall(URIMeta uriMeta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return JaxbUtil.marshal(jaxbContext, uriMeta, "application/json").replaceAll("\n", "");
     }
-
 }

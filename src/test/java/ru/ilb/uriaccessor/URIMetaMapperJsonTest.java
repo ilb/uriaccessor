@@ -53,14 +53,13 @@ public class URIMetaMapperJsonTest {
      * Test of unmarshall method, of class URIMetaMapperJson.
      */
     @Test
-    @Disabled
     public void testUnmarshall() {
         System.out.println("unmarshall");
         String content = "{\"uri\": \"test\",\"contentType\":\"application/xml\"}";
         URIMetaMapperJson instance = new URIMetaMapperJson();
         URIMeta expResult = new URIMeta(URI.create("test"), "application/xml");
         URIMeta result = instance.unmarshall(content);
-        assertEquals(expResult, result);
+        assertTrue(expResult.equals(result));
     }
 
     /**

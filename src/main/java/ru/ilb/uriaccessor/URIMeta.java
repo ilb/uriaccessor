@@ -15,13 +15,18 @@
  */
 package ru.ilb.uriaccessor;
 
+import java.io.Serializable;
 import java.net.URI;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 
 /**
  *
  * @author slavb
  */
-public class URIMeta {
+@XmlAccessorType(XmlAccessType.FIELD)
+public class URIMeta implements Serializable{
+
     protected final URI uri;
 
     protected final String contentType;
@@ -30,13 +35,29 @@ public class URIMeta {
         this.uri = uri;
         this.contentType = contentType;
     }
-
+    
+    public URIMeta() {
+        this.uri = null;
+        this.contentType = null;
+    }
+    
     public URI getUri() {
         return uri;
     }
 
     public String getContentType() {
         return contentType;
+    }
+    
+    @Override
+    public boolean equals(Object o){
+        if (!(o instanceof URIMeta)) {
+            return false;
+        }
+        URIMeta uriMeta = (URIMeta) o;
+        if(!uriMeta.getContentType().equals(this.contentType))
+            return false;
+        return uriMeta.getUri().equals(this.uri);
     }
 
 }
