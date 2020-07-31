@@ -53,7 +53,7 @@ public abstract class URIAccessorImpl implements URIAccessor {
         this.uri = uri;
         this.uriStorage = uriStorageFactory.getURIStorage();
         this.uriCode = this.uriStorage.getUriCode(uri);
-        this.uriStorage.registerUri(uri);
+        this.uriStorage.registerUri(uri, contentType);
         this.contentType = contentType;
     }
 

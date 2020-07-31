@@ -43,7 +43,7 @@ public interface URIStorage {
      * @param uri
      * @return registered uriCode of uri
      */
-    public String registerUri(URI uri);
+    public String registerUri(URI uri, String mediaType);
 
     /**
      * get uri storage path

@@ -19,13 +19,13 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.codec.digest.DigestUtils;
 
 public class URIStorageImpl implements URIStorage {
 
     private final Path path;
+    
+    private final URIMetaMapperJson uriMapper = new URIMetaMapperJson();
 
     public URIStorageImpl(Path path) {
         this.path = path;
@@ -59,11 +59,13 @@ public class URIStorageImpl implements URIStorage {
     }
 
     @Override
-    public String registerUri(URI uri) {
+    public String registerUri(URI uri, String contentType) {
         try {
             String uriCode = getUriCode(uri);
-            Path uriPath = path.resolve(getUriCode(uri) + ".uri");
-            Files.write(uriPath, uri.toString().getBytes());
+            Path uriPath = path.resolve(getUriCode(uri) + ".meta");
+            URIMeta uriMeta = new URIMeta(uri, contentType);
+            uriMapper.marshall(uriMeta);
+            Files.write(uriPath, uriMapper.marshall(uriMeta).getBytes());
             return uriCode;
         } catch (IOException ex) {
             throw new URIAccessorException(ex);

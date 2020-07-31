@@ -34,12 +34,10 @@ public class URIAccessorFile extends URIAccessorImpl {
     @Override
     protected void build() throws IOException {
         localUri = uri;
+
         Path path = Paths.get(uri);
         if (contentType == null) {
             contentType = Files.probeContentType(path);
-            if (contentType == null) {
-                contentType = "application/pdf"; //FIXME
-            }
         }
         lastModified = Files.getLastModifiedTime(path).toInstant();
     }
