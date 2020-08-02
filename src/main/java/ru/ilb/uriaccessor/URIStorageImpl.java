@@ -51,8 +51,9 @@ public class URIStorageImpl implements URIStorage {
         try {
             // read original uri from storage
             // possible use another storage
-            byte[] readAllBytes = Files.readAllBytes(path.resolve(uriCode + ".uri"));
-            return URI.create(new String(readAllBytes));
+            byte[] readAllBytes = Files.readAllBytes(path.resolve(uriCode + ".meta"));
+            URIMeta uriMeta = uriMapper.unmarshall(new String(readAllBytes));
+            return uriMeta.getUri();
         } catch (IOException ex) {
             throw new URIAccessorException(ex);
         }
