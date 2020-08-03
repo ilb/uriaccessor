@@ -17,6 +17,7 @@ package ru.ilb.uriaccessor;
 
 import java.io.Serializable;
 import java.net.URI;
+import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -60,6 +61,14 @@ public class URIMeta implements Serializable{
         if(!uriMeta.getContentType().equals(this.contentType))
             return false;
         return uriMeta.getUri().equals(this.uri);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 83 * hash + Objects.hashCode(this.uri);
+        hash = 83 * hash + Objects.hashCode(this.contentType);
+        return hash;
     }
 
 }
