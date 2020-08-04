@@ -75,6 +75,15 @@ public class URIStorageImpl implements URIStorage {
 
     @Override
     public String registerUri(URI uri) {
-        return registerUri(uri, null);
+        try {
+            String uriCode = getUriCode(uri);
+            Path uriPath = path.resolve(getUriCode(uri) + ".meta");
+            URIMeta uriMeta = new URIMeta(uri, null);
+            uriMapper.marshall(uriMeta);
+            Files.write(uriPath, uriMapper.marshall(uriMeta).getBytes());
+            return uriCode;
+        } catch (IOException ex) {
+            throw new URIAccessorException(ex);
+        }
     }
 }
