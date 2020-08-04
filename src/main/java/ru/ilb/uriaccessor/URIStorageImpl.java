@@ -24,7 +24,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 public class URIStorageImpl implements URIStorage {
 
     private final Path path;
-    
+
     private final URIMetaMapperJson uriMapper = new URIMetaMapperJson();
 
     public URIStorageImpl(Path path) {
@@ -73,4 +73,8 @@ public class URIStorageImpl implements URIStorage {
         }
     }
 
+    @Override
+    public String registerUri(URI uri) {
+        return registerUri(uri, null);
+    }
 }
