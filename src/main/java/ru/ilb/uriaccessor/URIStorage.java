@@ -26,6 +26,7 @@ public interface URIStorage {
 
     /**
      * get uri code of uri
+     *
      * @param uri
      * @return
      */
@@ -33,6 +34,7 @@ public interface URIStorage {
 
     /**
      * translate uriCode to uri using storage
+     *
      * @param uriCode
      * @return
      */
@@ -40,13 +42,24 @@ public interface URIStorage {
 
     /**
      * register uri in storage for back-resolving (uriCode to uri)
+     *
      * @param uri
      * @return registered uriCode of uri
      */
-    public String registerUri(URI uri, String mediaType);
+    public String registerUri(URI uri);
+
+    /**
+     * register uri in storage for back-resolving (uriCode to uri)
+     *
+     * @param uri
+     * @param contentType
+     * @return registered uriCode of uri
+     */
+    public String registerUri(URI uri, String contentType);
 
     /**
      * get uri storage path
+     *
      * @param uri
      * @return
      */
