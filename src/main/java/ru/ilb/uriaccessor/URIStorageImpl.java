@@ -25,9 +25,12 @@ public class URIStorageImpl implements URIStorage {
 
     private final Path path;
 
+    private Path URIMetaPath;
+
     private final URIMetaMapperJson uriMapper = new URIMetaMapperJson();
 
     public URIStorageImpl(Path path) {
+        this.URIMetaPath = null;
         this.path = path;
     }
 
@@ -65,8 +68,9 @@ public class URIStorageImpl implements URIStorage {
             String uriCode = getUriCode(uri);
             Path uriPath = path.resolve(getUriCode(uri) + ".meta");
             URIMeta uriMeta = new URIMeta(uri, contentType);
-            uriMapper.marshall(uriMeta);
+            this.uriMapper.marshall(uriMeta);
             Files.write(uriPath, uriMapper.marshall(uriMeta).getBytes());
+            this.URIMetaPath = uriPath;
             return uriCode;
         } catch (IOException ex) {
             throw new URIAccessorException(ex);
@@ -76,5 +80,18 @@ public class URIStorageImpl implements URIStorage {
     @Override
     public String registerUri(URI uri) {
         return registerUri(uri, null);
+    }
+
+    @Override
+    public URIMeta getUriMeta() {
+        if (URIMetaPath == null) {
+            throw new RuntimeException("URIMeta file does not exist");
+        }
+        try {
+            byte[] readAllBytes = Files.readAllBytes(URIMetaPath);
+            return uriMapper.unmarshall(new String(readAllBytes));
+        } catch (IOException ex) {
+            throw new URIAccessorException(ex);
+        }
     }
 }

@@ -120,6 +120,11 @@ public abstract class URIAccessorImpl implements URIAccessor {
     public Path getStorage() {
         return uriStorage.getStorage(uri);
     }
+    
+    @Override
+    public URIMeta getURIMeta(){
+        return this.uriStorage.getUriMeta();
+    }
 
     protected Path getStorageContent() {
         return getStorage().resolve("content");

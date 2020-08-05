@@ -25,7 +25,7 @@ public class URIAccessorFactory {
     public URIAccessor getURIAccessor(URI uri, String contentType) {
         switch (uri.getScheme()) {
             case "file":
-                return new URIAccessorFile(uri);
+                return new URIAccessorFile(uri, contentType);
             case "http":
             case "https":
                 return new URIAccessorHttp(uri);

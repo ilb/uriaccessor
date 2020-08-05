@@ -34,11 +34,10 @@ public class URIAccessorFile extends URIAccessorImpl {
     @Override
     protected void build() throws IOException {
         localUri = uri;
-
+//        if (contentType == null) {
+//            contentType = Files.probeContentType(path);
+//        }
         Path path = Paths.get(uri);
-        if (contentType == null) {
-            contentType = Files.probeContentType(path);
-        }
         lastModified = Files.getLastModifiedTime(path).toInstant();
     }
 

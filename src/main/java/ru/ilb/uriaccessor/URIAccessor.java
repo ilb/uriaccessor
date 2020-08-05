@@ -5,7 +5,6 @@
  */
 package ru.ilb.uriaccessor;
 
-import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Path;
 import java.time.Instant;
@@ -59,4 +58,11 @@ public interface URIAccessor {
      * @return
      */
     public Path getStorage();
+    
+    /**
+     * uri meta
+     *
+     * @return
+     */
+    public URIMeta getURIMeta();
 }

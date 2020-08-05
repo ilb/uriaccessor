@@ -64,4 +64,11 @@ public interface URIStorage {
      * @return
      */
     public Path getStorage(URI uri);
+    
+        /**
+     * get uri meta
+     *
+     * @return
+     */
+    public URIMeta getUriMeta();
 }
