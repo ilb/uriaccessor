@@ -58,7 +58,7 @@ public class URIStorageImplTest {
     @Test
     public void testRegisterUri_URI_String() throws IOException, URISyntaxException {
         System.out.println("registerUri");
-        URI uri = this.getClass().getResource("test.pdf").toURI();
+        URI uri = this.getClass().getResource("test1.pdf").toURI();
         final URIStorageFactory uriStorageFactory = new URIStorageFactory();
 
         String contentType = "application/json";
