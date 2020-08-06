@@ -18,7 +18,6 @@ package ru.ilb.uriaccessor;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import ru.ilb.common.jaxb.util.JaxbUtil;
-import javax.ws.rs.core.MediaType;
 
 public class URIMetaMapperJson implements URIMetaMapper {
 
@@ -34,7 +33,7 @@ public class URIMetaMapperJson implements URIMetaMapper {
 
     @Override
     public URIMeta unmarshall(String content) {
-        return (URIMeta) JaxbUtil.unmarshal(jaxbContext, content, ru.ilb.uriaccessor.URIMeta.class, MediaType.APPLICATION_JSON);
+        return (URIMeta) JaxbUtil.unmarshal(jaxbContext, content, ru.ilb.uriaccessor.URIMeta.class, "application/json");
     }
 
     @Override

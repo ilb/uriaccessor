@@ -46,15 +46,11 @@ public abstract class URIAccessorImpl implements URIAccessor {
     protected boolean builded;
 
     public URIAccessorImpl(URI uri) {
-        this(uri, null);
-    }
-
-    public URIAccessorImpl(URI uri, String contentType) {
         this.uri = uri;
         this.uriStorage = uriStorageFactory.getURIStorage();
         this.uriCode = this.uriStorage.getUriCode(uri);
-        this.uriStorage.registerUri(uri);
-        this.contentType = contentType;
+        this.contentType = getURIMeta().getContentType();
+//        this.uriStorage.registerUri(uri, contentType);
     }
 
     @Override
@@ -119,6 +115,10 @@ public abstract class URIAccessorImpl implements URIAccessor {
     @Override
     public Path getStorage() {
         return uriStorage.getStorage(uri);
+    }
+
+    private URIMeta getURIMeta() {
+        return this.uriStorage.getUriMeta(uri);
     }
 
     protected Path getStorageContent() {

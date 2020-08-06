@@ -19,13 +19,13 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.codec.digest.DigestUtils;
 
 public class URIStorageImpl implements URIStorage {
 
     private final Path path;
+
+    private final URIMetaMapperJson uriMetaMapper = new URIMetaMapperJson();
 
     public URIStorageImpl(Path path) {
         this.path = path;
@@ -51,8 +51,23 @@ public class URIStorageImpl implements URIStorage {
         try {
             // read original uri from storage
             // possible use another storage
-            byte[] readAllBytes = Files.readAllBytes(path.resolve(uriCode + ".uri"));
-            return URI.create(new String(readAllBytes));
+            byte[] readAllBytes = Files.readAllBytes(path.resolve(uriCode + ".meta"));
+            URIMeta uriMeta = uriMetaMapper.unmarshall(new String(readAllBytes));
+            return uriMeta.getUri();
+        } catch (IOException ex) {
+            throw new URIAccessorException(ex);
+        }
+    }
+
+    @Override
+    public String registerUri(URI uri, String contentType) {
+        try {
+            String uriCode = getUriCode(uri);
+            Path uriPath = path.resolve(getUriCode(uri) + ".meta");
+            URIMeta uriMeta = new URIMeta(uri, contentType);
+            this.uriMetaMapper.marshall(uriMeta);
+            Files.write(uriPath, uriMetaMapper.marshall(uriMeta).getBytes());
+            return uriCode;
         } catch (IOException ex) {
             throw new URIAccessorException(ex);
         }
@@ -60,14 +75,20 @@ public class URIStorageImpl implements URIStorage {
 
     @Override
     public String registerUri(URI uri) {
+        return registerUri(uri, null);
+    }
+
+    @Override
+    public URIMeta getUriMeta(URI uri) {
+        Path uriPath = path.resolve(getUriCode(uri) + ".meta");
+        if (!Files.exists(uriPath)) {
+            return new URIMeta();
+        }
         try {
-            String uriCode = getUriCode(uri);
-            Path uriPath = path.resolve(getUriCode(uri) + ".uri");
-            Files.write(uriPath, uri.toString().getBytes());
-            return uriCode;
+            byte[] readAllBytes = Files.readAllBytes(uriPath);
+            return uriMetaMapper.unmarshall(new String(readAllBytes));
         } catch (IOException ex) {
             throw new URIAccessorException(ex);
         }
     }
-
 }
