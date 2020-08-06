@@ -67,7 +67,7 @@ public class URIStorageImplTest {
 
         URIAccessor acc = factory.getURIAccessor(uri);
         String expResult = "application/json";
-        assertEquals(expResult, acc.getURIMeta().getContentType());
+        assertEquals(expResult, acc.getContentType());
     }
 
 }

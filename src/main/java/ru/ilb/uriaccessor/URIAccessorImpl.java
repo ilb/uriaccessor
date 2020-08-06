@@ -97,7 +97,7 @@ public abstract class URIAccessorImpl implements URIAccessor {
     @Override
     public String getContentType() {
         checkBuild();
-        return contentType;
+        return getURIMeta().getContentType() == null ? contentType : getURIMeta().getContentType();
     }
 
     @Override
@@ -116,8 +116,7 @@ public abstract class URIAccessorImpl implements URIAccessor {
         return uriStorage.getStorage(uri);
     }
 
-    @Override
-    public URIMeta getURIMeta(){
+    private URIMeta getURIMeta() {
         return this.uriStorage.getUriMeta(uri);
     }
 

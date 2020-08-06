@@ -59,10 +59,4 @@ public interface URIAccessor {
      */
     public Path getStorage();
     
-    /**
-     * uri meta
-     *
-     * @return
-     */
-    public URIMeta getURIMeta();
 }
