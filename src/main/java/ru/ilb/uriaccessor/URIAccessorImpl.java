@@ -97,7 +97,10 @@ public abstract class URIAccessorImpl implements URIAccessor {
     @Override
     public String getContentType() {
         checkBuild();
-        return getURIMeta().getContentType() == null ? contentType : getURIMeta().getContentType();
+        if(getURIMeta().getContentType() != null){
+            this.contentType = getURIMeta().getContentType();
+        }
+        return contentType;
     }
 
     @Override

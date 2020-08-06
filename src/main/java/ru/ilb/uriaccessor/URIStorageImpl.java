@@ -81,6 +81,9 @@ public class URIStorageImpl implements URIStorage {
     @Override
     public URIMeta getUriMeta(URI uri) {
         Path uriPath = path.resolve(getUriCode(uri) + ".meta");
+        if (!Files.exists(uriPath)) {
+            return new URIMeta();
+        }
         try {
             byte[] readAllBytes = Files.readAllBytes(uriPath);
             return uriMetaMapper.unmarshall(new String(readAllBytes));

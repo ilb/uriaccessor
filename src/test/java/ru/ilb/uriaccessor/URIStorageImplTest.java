@@ -18,6 +18,7 @@ package ru.ilb.uriaccessor;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -55,9 +56,9 @@ public class URIStorageImplTest {
      * @throws java.io.IOException
      */
     @Test
-    public void testRegisterUri_URI_String() throws IOException {
+    public void testRegisterUri_URI_String() throws IOException, URISyntaxException {
         System.out.println("registerUri");
-        URI uri = new File("test.pdf").toURI();
+        URI uri = this.getClass().getResource("test.pdf").toURI();
         final URIStorageFactory uriStorageFactory = new URIStorageFactory();
 
         String contentType = "application/json";
