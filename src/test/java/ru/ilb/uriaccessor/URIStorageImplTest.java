@@ -60,9 +60,14 @@ public class URIStorageImplTest {
     public void testRegisterUri_URI_String() throws IOException {
         System.out.println("registerUri");
         URI uri = new File("test.pdf").toURI();
+        final URIStorageFactory uriStorageFactory = new URIStorageFactory();
+
         String contentType = "application/json";
+
+        uriStorageFactory.getURIStorage().registerUri(uri, contentType);
         URIAccessorFactory factory = new URIAccessorFactory();
-        URIAccessor acc = factory.getURIAccessor(uri, contentType);
+
+        URIAccessor acc = factory.getURIAccessor(uri);
         String expResult = "application/json";
         assertEquals(expResult, acc.getURIMeta().getContentType());
     }
