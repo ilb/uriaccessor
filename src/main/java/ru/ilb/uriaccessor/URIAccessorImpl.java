@@ -118,7 +118,7 @@ public abstract class URIAccessorImpl implements URIAccessor {
 
     @Override
     public URIMeta getURIMeta(){
-        return this.uriStorage.getUriMeta();
+        return this.uriStorage.getUriMeta(uri);
     }
 
     protected Path getStorageContent() {

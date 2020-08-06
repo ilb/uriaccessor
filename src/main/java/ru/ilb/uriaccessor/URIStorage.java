@@ -70,5 +70,5 @@ public interface URIStorage {
      *
      * @return
      */
-    public URIMeta getUriMeta();
+    public URIMeta getUriMeta(URI uri);
 }
