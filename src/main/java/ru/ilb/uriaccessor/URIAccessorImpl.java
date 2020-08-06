@@ -49,6 +49,7 @@ public abstract class URIAccessorImpl implements URIAccessor {
         this.uri = uri;
         this.uriStorage = uriStorageFactory.getURIStorage();
         this.uriCode = this.uriStorage.getUriCode(uri);
+        this.contentType = getURIMeta().getContentType();
 //        this.uriStorage.registerUri(uri, contentType);
     }
 
@@ -97,9 +98,6 @@ public abstract class URIAccessorImpl implements URIAccessor {
     @Override
     public String getContentType() {
         checkBuild();
-        if(getURIMeta().getContentType() != null){
-            this.contentType = getURIMeta().getContentType();
-        }
         return contentType;
     }
 
