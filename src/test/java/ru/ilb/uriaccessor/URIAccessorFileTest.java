@@ -43,7 +43,5 @@ public class URIAccessorFileTest {
         assertEquals("application/pdf", instance.getContentType());
         assertEquals(Files.getLastModifiedTime(Paths.get(uri)).toInstant(), instance.getLastModified());
 
-        instance = new URIAccessorFile(uri,"application/x-pdf");
-        assertEquals("application/x-pdf", instance.getContentType());
     }
 }
