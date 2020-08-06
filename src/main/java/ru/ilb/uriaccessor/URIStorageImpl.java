@@ -27,7 +27,7 @@ public class URIStorageImpl implements URIStorage {
 
     private Path URIMetaPath;
 
-    private final URIMetaMapperJson uriMapper = new URIMetaMapperJson();
+    private final URIMetaMapperJson uriMetaMapper = new URIMetaMapperJson();
 
     public URIStorageImpl(Path path) {
         this.URIMetaPath = null;
@@ -55,7 +55,7 @@ public class URIStorageImpl implements URIStorage {
             // read original uri from storage
             // possible use another storage
             byte[] readAllBytes = Files.readAllBytes(path.resolve(uriCode + ".meta"));
-            URIMeta uriMeta = uriMapper.unmarshall(new String(readAllBytes));
+            URIMeta uriMeta = uriMetaMapper.unmarshall(new String(readAllBytes));
             return uriMeta.getUri();
         } catch (IOException ex) {
             throw new URIAccessorException(ex);
@@ -68,8 +68,8 @@ public class URIStorageImpl implements URIStorage {
             String uriCode = getUriCode(uri);
             Path uriPath = path.resolve(getUriCode(uri) + ".meta");
             URIMeta uriMeta = new URIMeta(uri, contentType);
-            this.uriMapper.marshall(uriMeta);
-            Files.write(uriPath, uriMapper.marshall(uriMeta).getBytes());
+            this.uriMetaMapper.marshall(uriMeta);
+            Files.write(uriPath, uriMetaMapper.marshall(uriMeta).getBytes());
             this.URIMetaPath = uriPath;
             return uriCode;
         } catch (IOException ex) {
@@ -89,7 +89,7 @@ public class URIStorageImpl implements URIStorage {
         }
         try {
             byte[] readAllBytes = Files.readAllBytes(URIMetaPath);
-            return uriMapper.unmarshall(new String(readAllBytes));
+            return uriMetaMapper.unmarshall(new String(readAllBytes));
         } catch (IOException ex) {
             throw new URIAccessorException(ex);
         }
