@@ -59,7 +59,7 @@ public class URIAccessorHttp extends URIAccessorImpl {
             if (System.currentTimeMillis() - lastAccessTime.toMillis() < TTL) {
                 lastModified = Instant.ofEpochMilli(lastModifiedTime.toMillis());
                 Map<String, String> headers = readMeta();
-                contentType = headers.get(CONTENT_TYPE);
+                contentType = removeCharset(headers.get(CONTENT_TYPE));
                 return; //!!!!!!!!!!!!!!!
             }
         }
@@ -84,11 +84,7 @@ public class URIAccessorHttp extends URIAccessorImpl {
                         .collect(Collectors.toMap(me -> me.getKey(), me -> me.getValue().get(0)));
 
                 lastModified = Instant.ofEpochMilli(conn.getLastModified());
-                contentType = conn.getContentType();
-                //FIXME remove charset
-                if (contentType != null && contentType.contains(";")) {
-                    contentType = contentType.split(";")[0];
-                }
+                contentType = removeCharset(conn.getContentType());
                 writeMeta(headers);
                 writeContent(conn.getInputStream());
 
@@ -100,10 +96,17 @@ public class URIAccessorHttp extends URIAccessorImpl {
             case HttpURLConnection.HTTP_NOT_MODIFIED:
                 lastModified = Instant.ofEpochMilli(conn.getLastModified());
                 headers = readMeta();
-                contentType = headers.get(CONTENT_TYPE);
+                contentType = removeCharset(headers.get(CONTENT_TYPE));
                 break;
             default:
                 throw new URIAccessorException("HTTP response code " + conn.getResponseCode() + " not implemented");
         }
+    }
+
+    private static String removeCharset(String contentType) {
+        if (contentType != null && contentType.contains(";")) {
+            contentType = contentType.split(";")[0];
+        }
+        return contentType;
     }
 }
