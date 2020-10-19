@@ -152,4 +152,9 @@ public abstract class URIAccessorImpl implements URIAccessor {
         return treeMap;
     }
 
+    @Override
+    public String toString() {
+        return "URIAccessorImpl{" + "uri=" + uri + ", contentType=" + contentType + ", localUri=" + localUri + '}';
+    }
+
 }
