@@ -33,6 +33,10 @@ public class URIAccessorFile extends URIAccessorImpl {
         if (contentType == null) {
             contentType = Files.probeContentType(Paths.get(uri));
         }
+        // TEMP FIXME HARDCODE
+        if (contentType == null) {
+            contentType = "application/pdf";
+        }
         Path path = Paths.get(uri);
         lastModified = Files.getLastModifiedTime(path).toInstant();
     }
