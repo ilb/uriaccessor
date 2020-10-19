@@ -20,6 +20,7 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.time.Instant;
 import java.util.Map;
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 
 public class URIAccessorHttp extends URIAccessorImpl {
 
+    private final static long TTL = 1000L * 60; // 60 seconds TTL
     private final static String LAST_MODIFIED = "Last-modified";
     private final static String CONTENT_TYPE = "Content-type";
     private static final String CACHE_CONTROL = "Cache-control";
@@ -47,11 +49,26 @@ public class URIAccessorHttp extends URIAccessorImpl {
         Path contentPath = getStorageContent();
         localUri = contentPath.toUri();
 
-        final HttpURLConnection conn = (HttpURLConnection) uri.toURL().openConnection();
+        FileTime lastModifiedTime = null;
+        FileTime lastAccessTime = null;
         if (Files.exists(contentPath)) {
-            FileTime lastModifiedTime = Files.getLastModifiedTime(contentPath);
+            BasicFileAttributes attrs = Files.readAttributes(contentPath, BasicFileAttributes.class);
+            lastModifiedTime = attrs.lastModifiedTime();
+            lastAccessTime = attrs.lastAccessTime();
+            //FIXME skip refresh
+            if (System.currentTimeMillis() - lastAccessTime.toMillis() < TTL) {
+                lastModified = Instant.ofEpochMilli(lastModifiedTime.toMillis());
+                Map<String, String> headers = readMeta();
+                contentType = headers.get(CONTENT_TYPE);
+                return; //!!!!!!!!!!!!!!!
+            }
+        }
+
+        final HttpURLConnection conn = (HttpURLConnection) uri.toURL().openConnection();
+        if (lastModifiedTime != null) {
             conn.setIfModifiedSince(lastModifiedTime.toMillis());
         }
+
         // override default Accept [text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2]
         // to request raw xml responses
         conn.setRequestProperty("Accept", "*/*");
