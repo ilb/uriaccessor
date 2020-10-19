@@ -16,6 +16,7 @@
 package ru.ilb.uriaccessor;
 
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.nio.file.Files;
@@ -46,9 +47,16 @@ public class URIAccessorHttp extends URIAccessorImpl {
     protected void build() throws IOException {
         Path storagePath = getStorage();
         Files.createDirectories(storagePath);
+        Path lockPath = storagePath.resolve("lock");
+        try (RandomAccessFile writer = new RandomAccessFile(lockPath.toString(), "rw")) {
+            writer.getChannel().lock();
+            buildInt();
+        }
+    }
+
+    private void buildInt() throws IOException {
         Path contentPath = getStorageContent();
         localUri = contentPath.toUri();
-
         FileTime lastModifiedTime = null;
         FileTime lastAccessTime = null;
         if (Files.exists(contentPath)) {
