@@ -25,6 +25,7 @@ import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.FileTime;
 import java.time.Instant;
 import java.util.Map;
+import java.util.TreeMap;
 import org.json.JSONObject;
 
 public abstract class URIAccessorImpl implements URIAccessor {
@@ -145,7 +146,10 @@ public abstract class URIAccessorImpl implements URIAccessor {
     protected Map<String, String> readMeta() throws IOException {
         byte[] metaBytes = Files.readAllBytes(getStorageMeta());
         JSONObject json = new JSONObject(new String(metaBytes));
-        return (Map<String, String>) (Object) json.toMap();
+        Map<String, String> map = (Map<String, String>) (Object) json.toMap();
+        TreeMap<String, String> treeMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+        treeMap.putAll(map);
+        return treeMap;
     }
 
 }
