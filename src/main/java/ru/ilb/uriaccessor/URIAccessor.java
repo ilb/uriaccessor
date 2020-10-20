@@ -60,10 +60,4 @@ public interface URIAccessor {
      */
     Path getStorage();
 
-    /**
-     * path to storage lock file
-     *
-     * @return
-     */
-    Path getStorageLock();
 }

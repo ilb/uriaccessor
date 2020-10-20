@@ -24,6 +24,8 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.time.Instant;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
 import java.util.stream.Collectors;
 
 public class URIAccessorHttp extends URIAccessorImpl {
@@ -32,6 +34,8 @@ public class URIAccessorHttp extends URIAccessorImpl {
     private final static String LAST_MODIFIED = "Last-modified";
     private final static String CONTENT_TYPE = "Content-type";
     private static final String CACHE_CONTROL = "Cache-control";
+
+    private final static LockFactory<String> LOCK_FACTORY = new LockFactory<>();
 
     public URIAccessorHttp(URI uri) {
         super(uri);
@@ -46,11 +50,15 @@ public class URIAccessorHttp extends URIAccessorImpl {
     protected void build() throws IOException {
         Path storagePath = getStorage();
         Files.createDirectories(storagePath);
-//        Path lockPath = getStorageLock();
-//        try (RandomAccessFile writer = new RandomAccessFile(lockPath.toString(), "rw")) {
-//            writer.getChannel().lock();
-        buildInt();
-//        }
+        ReadWriteLock lock = LOCK_FACTORY.getLock(uriCode);
+        //TODO: use shared lock
+        Lock write = lock.writeLock();
+        try {
+            write.lock();
+            buildInt();
+        } finally {
+            write.unlock();
+        }
     }
 
     private void buildInt() throws IOException {
