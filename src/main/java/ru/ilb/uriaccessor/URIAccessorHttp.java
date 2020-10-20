@@ -24,7 +24,6 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.time.Instant;
 import java.util.Map;
-import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.stream.Collectors;
 
@@ -52,12 +51,11 @@ public class URIAccessorHttp extends URIAccessorImpl {
         Files.createDirectories(storagePath);
         ReadWriteLock lock = LOCK_FACTORY.getLock(uriCode);
         //TODO: use shared lock
-        Lock write = lock.writeLock();
+        lock.writeLock().lock();
         try {
-            write.lock();
             buildInt();
         } finally {
-            write.unlock();
+            lock.writeLock().unlock();
         }
     }
 
