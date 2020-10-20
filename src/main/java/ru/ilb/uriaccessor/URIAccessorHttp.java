@@ -20,6 +20,7 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributeView;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.time.Instant;
@@ -79,8 +80,9 @@ public class URIAccessorHttp extends URIAccessorImpl {
             Map<String, String> headers = readMeta();
             contentType = removeCharset(headers.get(CONTENT_TYPE));
             //FIXME skip refresh
-            if (System.currentTimeMillis() - lastAccessTime.toMillis() < TTL) {
-                LOG.info("{}: skip refresh TTL remaining {}", uriCode, System.currentTimeMillis() - lastAccessTime.toMillis());
+            long ttl = TTL - (System.currentTimeMillis() - lastAccessTime.toMillis());
+            if (ttl > 0) {
+                LOG.info("{}: skip refresh TTL remaining {}", uriCode, ttl);
                 return; //!!!!!!!!!!!!!!!
             }
         }
@@ -117,8 +119,12 @@ public class URIAccessorHttp extends URIAccessorImpl {
                 break;
 
             case HttpURLConnection.HTTP_NOT_MODIFIED:
-                LOG.info("{}: HTTP{} lastModified={}, contentType={}", uriCode, conn.getResponseCode(), lastModified, contentType);
+                // update last access time
+                FileTime accessTime = FileTime.from(Instant.now());
+                LOG.info("{}: HTTP{} lastModified={}, contentType={}, accessTime={}", uriCode, conn.getResponseCode(), lastModified, contentType, accessTime);
+                Files.getFileAttributeView(contentPath, BasicFileAttributeView.class).setTimes(null, accessTime, null);
                 break;
+
             default:
                 throw new URIAccessorException("HTTP response code " + conn.getResponseCode() + " not implemented");
         }
