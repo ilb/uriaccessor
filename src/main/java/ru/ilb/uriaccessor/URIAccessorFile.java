@@ -30,9 +30,9 @@ public class URIAccessorFile extends URIAccessorImpl {
     @Override
     protected void build() throws IOException {
         localUri = uri;
-//        if (contentType == null) {
-//            contentType = Files.probeContentType(Paths.get(uri));
-//        }
+        if (contentType == null) {
+            contentType = Files.probeContentType(Paths.get(uri));
+        }
         // TEMP FIXME HARDCODE
         if (contentType == null) {
             contentType = "application/pdf";
