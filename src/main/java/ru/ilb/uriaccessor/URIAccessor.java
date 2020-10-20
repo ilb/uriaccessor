@@ -21,42 +21,49 @@ public interface URIAccessor {
      *
      * @return
      */
-    public URI getUri();
+    URI getUri();
 
     /**
      * get local uri (may be same as input uri for file:// scheme, for network resources may be local copy)
      *
      * @return
      */
-    public URI getLocalUri();
+    URI getLocalUri();
 
-    public Instant getLastModified();
+    Instant getLastModified();
 
     /**
      * reads uri contents
+     *
      * @return
      */
+    byte[] getContent();
 
-    public byte[] getContent();
     /**
      * content type of uri
      *
      * @return
      */
-    public String getContentType();
+    String getContentType();
 
     /**
      * unique uri code
      *
      * @return
      */
-    public String getUriCode();
+    String getUriCode();
 
     /**
-     * path to uri storage folder
+     * path to storage folder
      *
      * @return
      */
-    public Path getStorage();
-    
+    Path getStorage();
+
+    /**
+     * path to storage lock file
+     *
+     * @return
+     */
+    Path getStorageLock();
 }

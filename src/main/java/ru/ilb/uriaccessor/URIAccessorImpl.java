@@ -130,6 +130,11 @@ public abstract class URIAccessorImpl implements URIAccessor {
         return getStorage().resolve("meta");
     }
 
+    @Override
+    public Path getStorageLock() {
+        return getStorage().resolve("lock");
+    }
+
     protected void writeContent(InputStream is) throws IOException {
         Files.copy(is, getStorageContent(), StandardCopyOption.REPLACE_EXISTING);
         FileTime lastModifiedTime = FileTime.from(lastModified);

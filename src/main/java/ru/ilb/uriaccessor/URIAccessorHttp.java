@@ -47,7 +47,7 @@ public class URIAccessorHttp extends URIAccessorImpl {
     protected void build() throws IOException {
         Path storagePath = getStorage();
         Files.createDirectories(storagePath);
-        Path lockPath = storagePath.resolve("lock");
+        Path lockPath = getStorageLock();
         try (RandomAccessFile writer = new RandomAccessFile(lockPath.toString(), "rw")) {
             writer.getChannel().lock();
             buildInt();
