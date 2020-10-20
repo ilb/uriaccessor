@@ -75,12 +75,12 @@ public class URIAccessorHttp extends URIAccessorImpl {
             lastModifiedTime = attrs.lastModifiedTime();
             lastAccessTime = attrs.lastAccessTime();
             LOG.info("{}: content exists lastModifiedTime={}, lastAccessTime={}", uriCode, lastModifiedTime, lastAccessTime);
+            lastModified = Instant.ofEpochMilli(lastModifiedTime.toMillis());
+            Map<String, String> headers = readMeta();
+            contentType = removeCharset(headers.get(CONTENT_TYPE));
             //FIXME skip refresh
             if (System.currentTimeMillis() - lastAccessTime.toMillis() < TTL) {
                 LOG.info("{}: skip refresh TTL remaining {}", uriCode, System.currentTimeMillis() - lastAccessTime.toMillis());
-                lastModified = Instant.ofEpochMilli(lastModifiedTime.toMillis());
-                Map<String, String> headers = readMeta();
-                contentType = removeCharset(headers.get(CONTENT_TYPE));
                 return; //!!!!!!!!!!!!!!!
             }
         }
@@ -117,9 +117,6 @@ public class URIAccessorHttp extends URIAccessorImpl {
                 break;
 
             case HttpURLConnection.HTTP_NOT_MODIFIED:
-                lastModified = Instant.ofEpochMilli(conn.getLastModified());
-                headers = readMeta();
-                contentType = removeCharset(headers.get(CONTENT_TYPE));
                 LOG.info("{}: HTTP{} lastModified={}, contentType={}", uriCode, conn.getResponseCode(), lastModified, contentType);
                 break;
             default:
