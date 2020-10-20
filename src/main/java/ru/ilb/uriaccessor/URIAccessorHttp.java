@@ -26,8 +26,12 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class URIAccessorHttp extends URIAccessorImpl {
+
+    private static final Logger LOG = LoggerFactory.getLogger(URIAccessorHttp.class);
 
     private final static long TTL = 1000L * 60; // 60 seconds TTL
     private final static String LAST_MODIFIED = "Last-modified";
@@ -51,10 +55,12 @@ public class URIAccessorHttp extends URIAccessorImpl {
         Files.createDirectories(storagePath);
         ReadWriteLock lock = LOCK_FACTORY.getLock(uriCode);
         //TODO: use shared lock
+        LOG.debug("{}: locking", uriCode);
         lock.writeLock().lock();
         try {
             buildInt();
         } finally {
+            LOG.debug("{}: unlocking", uriCode);
             lock.writeLock().unlock();
         }
     }
@@ -68,8 +74,10 @@ public class URIAccessorHttp extends URIAccessorImpl {
             BasicFileAttributes attrs = Files.readAttributes(contentPath, BasicFileAttributes.class);
             lastModifiedTime = attrs.lastModifiedTime();
             lastAccessTime = attrs.lastAccessTime();
+            LOG.info("{}: content exists lastModifiedTime={}, lastAccessTime={}", uriCode, lastModifiedTime, lastAccessTime);
             //FIXME skip refresh
             if (System.currentTimeMillis() - lastAccessTime.toMillis() < TTL) {
+                LOG.info("{}: skip refresh TTL remaining {}", uriCode, System.currentTimeMillis() - lastAccessTime.toMillis());
                 lastModified = Instant.ofEpochMilli(lastModifiedTime.toMillis());
                 Map<String, String> headers = readMeta();
                 contentType = removeCharset(headers.get(CONTENT_TYPE));
@@ -98,6 +106,8 @@ public class URIAccessorHttp extends URIAccessorImpl {
 
                 lastModified = Instant.ofEpochMilli(conn.getLastModified());
                 contentType = removeCharset(conn.getContentType());
+                LOG.info("{}: HTTP{} lastModified={}, contentType={}", uriCode, conn.getResponseCode(), lastModified, contentType);
+
                 writeMeta(headers);
                 writeContent(conn.getInputStream());
 
@@ -110,6 +120,7 @@ public class URIAccessorHttp extends URIAccessorImpl {
                 lastModified = Instant.ofEpochMilli(conn.getLastModified());
                 headers = readMeta();
                 contentType = removeCharset(headers.get(CONTENT_TYPE));
+                LOG.info("{}: HTTP{} lastModified={}, contentType={}", uriCode, conn.getResponseCode(), lastModified, contentType);
                 break;
             default:
                 throw new URIAccessorException("HTTP response code " + conn.getResponseCode() + " not implemented");
