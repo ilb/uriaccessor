@@ -29,6 +29,7 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.ilb.common.lock.ReadWriteLockFactory;
 
 public class URIAccessorHttp extends URIAccessorImpl {
 
@@ -39,7 +40,7 @@ public class URIAccessorHttp extends URIAccessorImpl {
     private final static String CONTENT_TYPE = "Content-type";
     private static final String CACHE_CONTROL = "Cache-control";
 
-    private final static LockFactory<String> LOCK_FACTORY = new LockFactory<>();
+    private final static ReadWriteLockFactory<String> LOCK_FACTORY = new ReadWriteLockFactory<>();
 
     public URIAccessorHttp(URI uri) {
         super(uri);

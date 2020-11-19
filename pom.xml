@@ -32,6 +32,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <eclipselink.version>2.7.6</eclipselink.version>
+        <ilb-common.version>1.35-SNAPSHOT</ilb-common.version>
     </properties>
 
     <build>
@@ -119,7 +120,13 @@
         <dependency>
             <groupId>ru.ilb.common</groupId>
             <artifactId>common-jaxb</artifactId>
-            <version>1.33</version>
+            <version>${ilb-common.version}</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>ru.ilb.common</groupId>
+            <artifactId>common-lock</artifactId>
+            <version>${ilb-common.version}</version>
             <type>jar</type>
         </dependency>
         <dependency>
