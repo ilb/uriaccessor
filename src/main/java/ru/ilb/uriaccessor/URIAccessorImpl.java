@@ -115,7 +115,11 @@ public abstract class URIAccessorImpl implements URIAccessor {
 
     @Override
     public Path getStorage() {
-        return uriStorage.getStorage(uri);
+        try {
+            return Files.createDirectories(uriStorage.getStorage(uri));
+        } catch (IOException ex) {
+            throw new URIAccessorException(ex);
+        }
     }
 
     private URIMeta getURIMeta() {
