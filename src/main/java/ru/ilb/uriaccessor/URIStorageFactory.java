@@ -39,9 +39,9 @@ public class URIStorageFactory {
         String tempDir = System.getProperty("java.io.tmpdir");
         String userName = System.getProperty("user.name");
         this.path = Paths.get(tempDir, "URIStorage-" + userName);
-        try{
+        try {
             Files.createDirectories(path);
-        }catch(IOException ex){
+        } catch (IOException ex) {
             throw new URIAccessorException(ex);
         }
 

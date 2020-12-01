@@ -35,12 +35,12 @@ public class URIAccessorHttp extends URIAccessorImpl {
 
     private static final Logger LOG = LoggerFactory.getLogger(URIAccessorHttp.class);
 
-    private final static long TTL = 1000L * 60; // 60 seconds TTL
-    private final static String LAST_MODIFIED = "Last-modified";
-    private final static String CONTENT_TYPE = "Content-type";
-    private static final String CACHE_CONTROL = "Cache-control";
+    private static final long TTL = 1000L * 60; // 60 seconds TTL
+//    private static final String LAST_MODIFIED = "Last-modified";
+    private static final String CONTENT_TYPE = "Content-type";
+//    private static final String CACHE_CONTROL = "Cache-control";
 
-    private final static ReadWriteLockFactory<String> LOCK_FACTORY = new ReadWriteLockFactory<>();
+    private static final ReadWriteLockFactory<String> LOCK_FACTORY = new ReadWriteLockFactory<>();
 
     public URIAccessorHttp(URI uri) {
         super(uri);

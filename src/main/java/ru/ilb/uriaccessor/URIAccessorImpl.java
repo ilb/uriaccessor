@@ -151,7 +151,7 @@ public abstract class URIAccessorImpl implements URIAccessor {
         byte[] metaBytes = Files.readAllBytes(getStorageMeta());
         JSONObject json = new JSONObject(new String(metaBytes));
         Map<String, String> map = (Map<String, String>) (Object) json.toMap();
-        TreeMap<String, String> treeMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+        Map<String, String> treeMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         treeMap.putAll(map);
         return treeMap;
     }

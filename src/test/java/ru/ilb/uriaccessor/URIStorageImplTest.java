@@ -15,16 +15,15 @@
  */
 package ru.ilb.uriaccessor;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  *
@@ -53,10 +52,11 @@ public class URIStorageImplTest {
 
     /**
      * Test of registerUri method, of class URIStorageImpl.
+     *
      * @throws java.io.IOException
      */
     @Test
-    public void testRegisterUri_URI_String() throws IOException, URISyntaxException {
+    public void testRegisterUriURIString() throws IOException, URISyntaxException {
         System.out.println("registerUri");
         URI uri = this.getClass().getResource("test.json").toURI();
         final URIStorageFactory uriStorageFactory = new URIStorageFactory();

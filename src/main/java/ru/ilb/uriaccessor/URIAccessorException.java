@@ -19,7 +19,7 @@ package ru.ilb.uriaccessor;
  *
  * @author slavb
  */
-public class URIAccessorException extends RuntimeException{
+public class URIAccessorException extends RuntimeException {
 
     public URIAccessorException(Throwable cause) {
         super(cause);

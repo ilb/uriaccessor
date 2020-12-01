@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class URIMeta implements Serializable{
+public class URIMeta implements Serializable {
 
     protected final URI uri;
 
@@ -38,12 +38,12 @@ public class URIMeta implements Serializable{
         this.uri = uri;
         this.contentType = contentType;
     }
-    
+
     public URIMeta() {
         this.uri = null;
         this.contentType = null;
     }
-    
+
     public URI getUri() {
         return uri;
     }
@@ -51,15 +51,16 @@ public class URIMeta implements Serializable{
     public String getContentType() {
         return contentType;
     }
-    
+
     @Override
-    public boolean equals(Object o){
+    public boolean equals(Object o) {
         if (!(o instanceof URIMeta)) {
             return false;
         }
         URIMeta uriMeta = (URIMeta) o;
-        if(!uriMeta.getContentType().equals(this.contentType))
+        if (!uriMeta.getContentType().equals(this.contentType)) {
             return false;
+        }
         return uriMeta.getUri().equals(this.uri);
     }
 

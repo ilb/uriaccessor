@@ -21,8 +21,8 @@ package ru.ilb.uriaccessor;
  */
 public interface URIMetaMapper {
 
-    public URIMeta unmarshall(String content);
+    URIMeta unmarshall(String content);
 
-    public String marshall(URIMeta uriMeta);
+    String marshall(URIMeta uriMeta);
 
 }
