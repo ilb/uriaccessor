@@ -39,17 +39,15 @@ public class URIAccessorHttpTest {
     @Test
     public void testBuild() throws Exception {
         System.out.println("build");
-        URI endpointAddress = URI.create("http://localhost:52341/api/endpoint");
+        URI endpointAddress = URI.create("http://localhost:52341/api/endpoint?rnd=" + Math.random());
 
         URIAccessorHttp instance = new URIAccessorHttp(endpointAddress);
 
         Path source = Paths.get(this.getClass().getResource("test.pdf").toURI());
         try (TestHttpServerFile th = new TestHttpServerFile(endpointAddress.toURL(), source)) {
-
             assertEquals("file", instance.getLocalUri().getScheme(), "local file:// uri expected");
             assertEquals("application/octet-stream", instance.getContentType());
             assertEquals(Files.getLastModifiedTime(source).toInstant().truncatedTo(ChronoUnit.SECONDS), instance.getLastModified());
-
         }
 
     }
